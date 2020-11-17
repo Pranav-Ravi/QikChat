@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button, FormControl, InputLabel, Input } from '@material-ui/core';
 import './App.css';
 
 function App() {
@@ -9,8 +10,11 @@ function App() {
   console.log(messages);
 
   const sendMessage = (event) => {
+    //prevents any automatic refresh of the page
+    event.preventDefault();
     //all the logic to send a message goes here 
-    setMessages([...messages, input]);
+    setMessages([...messages, input]); //using ... appends the new message to the old array,
+    //instead of replacing the old messages
     setInput('');
   };
 
@@ -18,11 +22,20 @@ function App() {
     <div className="App">
       <h1>Hello Pranav</h1>
 
-      <input value={input} onChange={event => setInput(event.target.value)}/>
-      <button onClick={sendMessage}>Send Message</button>
-      {/* input field */}
-      {/* button */}
-      {/* messages themselves */}
+      <form>
+      <FormControl>
+        <InputLabel>Enter a message...</InputLabel>
+        <Input value={input} onChange={event => setInput(event.target.value)}/>
+        <Button variant="contained" color="primary" disabled={!input} onClick={sendMessage}>Send Message</Button>
+      </FormControl>
+      </form>
+
+      {/* displays the current typed message in to the user screen */}
+      {
+        messages.map(message => (
+        <p>{message}</p>
+        ))
+      }
     </div>
   );
 }
