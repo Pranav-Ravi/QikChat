@@ -45,7 +45,7 @@ function App() {
       {/* displays the current typed message in to the user screen */}
       {
         messages.map(message => (
-          <Message username={message.username} text={message.text}/> //accessing the functionality in components
+          <Message username={username} message={message}/> //accessing the functionality in components
         ))
       }
     </div>
