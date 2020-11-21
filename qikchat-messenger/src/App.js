@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, FormControl, InputLabel, Input } from '@material-ui/core';
 import './App.css';
 import Message from './Message';
+import db from './firebase';
 
 function App() {
   const [input, setInput] = useState('');
@@ -13,6 +14,13 @@ function App() {
 
   console.log(input);
   console.log(messages);
+
+  useEffect(() => {
+    // runs only once when the app component loads
+    db.collection('messages').OnSnapshot(snapshot => {
+      setMessages(snapshot.docs.map(doc => doc.data()))
+    });
+  }, [])
 
   useEffect(() => {
     //normal way
