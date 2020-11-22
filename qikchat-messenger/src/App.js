@@ -3,13 +3,11 @@ import { Button, FormControl, InputLabel, Input } from '@material-ui/core';
 import './App.css';
 import Message from './Message';
 import db from './firebase';
+import firebase from 'firebase'; 
 
 function App() {
   const [input, setInput] = useState('');
-  const [messages, setMessages] = useState([
-    {username: 'pranav', text: 'hey guys'},
-    {username: 'kiran', text: 'hey dude'}
-  ]); //array to store all the messages that user send
+  const [messages, setMessages] = useState([]); //array to store all the messages that user send
   const [username, setUsername] = useState('');
 
   console.log(input);
@@ -17,8 +15,10 @@ function App() {
 
   useEffect(() => {
     // runs only once when the app component loads
-    db.collection('messages').OnSnapshot(snapshot => {
-      setMessages(snapshot.docs.map(doc => doc.data()))
+    db.collection('messages')
+    .orderBy('timestamp', 'asc')
+    .onSnapshot(snapshot => {
+      setMessages(snapshot.docs.map(doc => ({id: doc.id, message: doc.data()})))
     });
   }, [])
 
@@ -32,8 +32,16 @@ function App() {
   const sendMessage = (event) => {
     //prevents any automatic refresh of the page
     event.preventDefault();
+
+    //push data to the database
+    db.collection('messages').add({
+      message: input,
+      username: username,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp() //uses the time based on the server country()
+    })
     //all the logic to send a message goes here 
-    setMessages([...messages, {username: username, text: input}]); //using ... appends the new message to the old array,
+    //setMessages([...messages, {username: username, text: input}]); //using ... appends the new message to the old array,
+
     //instead of replacing the old messages
     setInput('');
   };
@@ -51,11 +59,13 @@ function App() {
       </form>
 
       {/* displays the current typed message in to the user screen */}
-      {
-        messages.map(message => (
-          <Message username={username} message={message}/> //accessing the functionality in components
-        ))
-      }
+      <FlipMove>
+        {
+          messages.map(({id, message}) => (
+            <Message key={id} username={username} message={message}/> //accessing the functionality in components
+          ))
+        }
+      </FlipMove>
     </div>
   );
 }

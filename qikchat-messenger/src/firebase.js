@@ -1,5 +1,4 @@
 import firebase from "firebase";
-import {firestore} from 'firebase';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseApp = firebase.initializeApp({
@@ -11,8 +10,8 @@ const firebaseApp = firebase.initializeApp({
     messagingSenderId: "196321936161",
     appId: "1:196321936161:web:996aff6b13afff9aeb3460",
     measurementId: "G-WJ92T09ZHB"
-  });
+});
 
-  const db = firebaseApp.fireStore;
+  const db = firebaseApp.firestore(); 
 
   export default db;
