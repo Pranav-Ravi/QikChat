@@ -48,6 +48,7 @@ function App() {
 
   return (
     <div className="App">
+      <img src="https://icons.iconarchive.com/icons/pelfusion/long-shadow-ios7/1024/Messages-icon.png?w=100&h=100"/>
       <h2>Welcome {username}</h2>
 
       <form>
