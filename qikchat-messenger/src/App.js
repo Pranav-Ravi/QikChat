@@ -51,7 +51,7 @@ function App() {
       <img src="https://icons.iconarchive.com/icons/pelfusion/long-shadow-ios7/1024/Messages-icon.png?w=100&h=100"/>
       <h2>Welcome {username}</h2>
 
-      <form>
+      <form className="app__form">
       <FormControl>
         <InputLabel>Enter a message...</InputLabel>
         <Input value={input} onChange={event => setInput(event.target.value)}/>
